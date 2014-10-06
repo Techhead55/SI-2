@@ -1,0 +1,32 @@
+#container {
+    position: fixed;
+    height: 100%;
+    width: 400%;
+    top: 0;
+    left: 0;
+}
+.container_state {
+    position: absolute;
+    top: 0;
+    width: 25%;
+    height: 100%;
+}
+#container_splash {
+    left: 0%;
+}
+#container_menu {
+    left: 25%;
+}
+#container_splash_title {
+    position: absolute;
+    width: 600px;
+    height: 150px;
+    top: Calc(50% - 75px);
+    left: Calc(50% - 300px);
+    user-select: none;
+}
+#container_splash_title_text {
+    position: absolute;
+    top: 0;
+    left: 150px;
+}

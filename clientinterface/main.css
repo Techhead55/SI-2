@@ -1,0 +1,5 @@
+#container_general_logo {
+    position: fixed;
+    top: Calc(50% - 150px);
+    left: Calc(50% - 150px);
+}

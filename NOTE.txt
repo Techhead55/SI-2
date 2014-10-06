@@ -1,0 +1,6 @@
+/Users/nathanhorton/Google Drive/AEM/Project/SI^2/Application
+
+And install JE6 for the arduino client test
+
+INSTALL SHELLJS at school
+npm install -g shelljs

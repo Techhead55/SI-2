@@ -1,0 +1,110 @@
+String.prototype.repeat = function(num){
+    return new Array(Math.round(num)+1).join(this);
+}
+var lib = {},
+    fs = require("fs"),
+    colour = require('cli-color'),
+    readline = require('readline'),
+    express = require('express'),
+    HTTP = require('http'), 
+    os = require('os'),
+    socketIO = require("socket.io"),
+    jFive = require("johnny-five"),
+    net = require("net");
+require('shelljs/global');
+lib.System = {
+    hardwareOut: function(){},
+    drawBack: function (){
+        console.log(colour.bgXterm(15)(" ").repeat(colour.width-1));
+        process.stdout.write(colour.move(0, -1));
+    },
+    print: function(m){
+        lib.System.drawBack();
+        console.log(colour.xterm(40).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        lib.System.hardwareOut(m);
+    },
+    warn: function(m){
+        lib.System.drawBack();
+        console.warn(colour.xterm(202).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        lib.System.hardwareOut(m);
+    },
+    error: function(m){
+        lib.System.drawBack();
+        console.error(colour.xterm(9).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        lib.System.hardwareOut(m);
+    },
+    clear: function(){
+        console.log(colour.reset);
+    },
+    read: function(){
+        
+    },
+    write: function(){
+        
+    },
+    os: function(){
+        return process.platform.replace("win32", "Windows").replace("win64", "Windows").replace("win86", "Windows").toLowerCase();
+    },
+    command: function(windows, linux){
+        return exec(lib.System.os==="Windows"?windows:linux, {silent:true}).output;
+    },
+    printHeader: function(){
+        lib.System.drawBack();
+        console.log(colour.xterm(39).bgXterm(15)(" ".repeat((colour.width/2)-(("SI^2 running on "+System.os()).length/2))+("SI^2 running on "+System.os())));
+    },
+    initialise: function(){
+        lib.System.clear();
+        process.stdout.write(colour.moveTo(0, 0));
+        lib.System.printHeader()
+    }
+};
+lib.MicroController = {
+    jFive: jFive,
+    initialise: function(){
+        if (System.os() === "windows") lib.MicroController.Board = new jFive.Board({port:"COM3"});
+        if (System.os() === "linux") lib.MicroController.Board = new jFive.Board({});
+        lib.MicroController.Board.debug = false;
+    }
+};
+lib.Interface = {
+    registerRequestHandler: function(reqDir, resDir){
+        lib.System.print("Interface request handler registered: "+reqDir+" --> "+resDir);
+        lib.Interface.application.get(reqDir, function(req, res){
+            lib.System.print("Interface served request: "+reqDir+" --> "+resDir);
+            res.sendfile(__dirname + resDir);
+        });
+    },
+    initialise: function(port){
+        lib.Interface.application = express();
+        lib.Interface.server = HTTP.createServer(lib.Interface.application);
+        lib.Interface.server.listen(port);
+        lib.System.print("Interface listening on port "+port);
+        lib.Interface.coms = socketIO.listen(lib.Interface.server, {log: false});
+        lib.System.print("Interface coms have been initiated.");
+    },
+    open: function(){
+        
+    }
+};
+lib.Network = {
+    connect: function(){
+        
+    },
+    host: function(){
+        
+    },
+    on: function(){
+        
+    }
+};
+lib.Cryptography = {};
+lib.Database = {
+    initialise: function(){
+        
+    }
+};
+lib.initialise = function(){
+    for (i in lib) if (i !== "initialise") GLOBAL[i] = lib[i];
+};
+exports.lib = lib;
+GLOBAL.jFive = jFive;
