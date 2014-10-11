@@ -24,6 +24,7 @@
     top: Calc(50% - 75px);
     left: Calc(50% - 300px);
     user-select: none;
+    -webkit-user-select: none;
 }
 #container_splash_title_text {
     position: absolute;

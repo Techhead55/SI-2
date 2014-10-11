@@ -10,7 +10,9 @@ var lib = {},
     os = require('os'),
     socketIO = require("socket.io"),
     jFive = require("johnny-five"),
-    net = require("net");
+    net = require("net"),
+    CryptoJS = require('./CryptoJS.js'),
+    hat = require('hat');
 require('shelljs/global');
 lib.System = {
     hardwareOut: function(){},
@@ -43,10 +45,10 @@ lib.System = {
         
     },
     os: function(){
-        return process.platform.replace("win32", "Windows").replace("win64", "Windows").replace("win86", "Windows").toLowerCase();
+        return process.platform.replace("win32", "Windows").replace("win64", "Windows").replace("win86", "Windows").replace("darwin", "OSX").toLowerCase();
     },
-    command: function(windows, linux){
-        return exec(lib.System.os==="Windows"?windows:linux, {silent:true}).output;
+    command: function(commands){
+        return exec(commands[lib.System.os()], {silent:true}).output;
     },
     printHeader: function(){
         lib.System.drawBack();
@@ -81,23 +83,48 @@ lib.Interface = {
         lib.System.print("Interface listening on port "+port);
         lib.Interface.coms = socketIO.listen(lib.Interface.server, {log: false});
         lib.System.print("Interface coms have been initiated.");
+        lib.Interface.coms.origins("localhost:"+port);
+        lib.System.print("Coms are locked to port "+port);
     },
     open: function(){
         
     }
 };
 lib.Network = {
-    connect: function(){
-        
+    connect: function(port){
+        lib.Network.client = net.connect({port: port}, function(){
+            lib.System.print("Server connection established.");
+        });
     },
-    host: function(){
-        
+    host: function(port){
+        lib.Network.server = net.createServer(function(socket){
+            lib.System.print("Server initialised.");
+        });
+        lib.Network.server.listen(port, function(){
+            lib.System.print("Server listening on port "+port);
+        });
     },
-    on: function(){
-        
+    on: function(key, callback){
+        lib.System.print("Server event listener registered.");
+        lib.Network.client.on(key, callback);
+    },
+    emit: function(key, contents){
+        lib.System.print("Server emited "+key+" event, with the contents "+contents);
+        lib.Network.client.emit(key,callback);
+    },
+    disconnect: function(){
+        lib.Network.client.end();
     }
 };
-lib.Cryptography = {};
+lib.Cryptography = {
+    AES: CryptoJS.AES, 
+    generateToken: function(){
+        return hat();
+    },
+    generatePort: function(){
+        return Math.floor(Math.random() * 55000) + 1000;
+    }
+};
 lib.Database = {
     initialise: function(){
         

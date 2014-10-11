@@ -5,9 +5,9 @@ window.onload = function(){
             state: 0
         },
         states: {
-            splash: $("#container_splash"),
-            menu: $("#container_menu"),
-            menu_elements: $("#container_menu_elements")
+            splash: $("#container_splash")[0],
+            menu: $("#container_menu")[0],
+            menu_elements: $("#container_menu_elements")[0]
         },
         getURLParam: function getParam(key){
             var val = window.location.search.split(/[&?]+/).slice(1).filter(function(v, i, o){
