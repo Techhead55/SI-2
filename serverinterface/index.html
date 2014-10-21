@@ -22,33 +22,119 @@
                 <div id="container_menu_container">
                     <div id="container_menu_title">SI^2</div>
                     <div id="container_menu_list_elements">
-                        <div class="container_menu_list_element">
+                        <div class="container_menu_list_element" 
+                             onclick="Interface.setState(2); Interface.setMenu(0);">
                             Students &amp; Staff
                         </div>
-                        <div class="container_menu_list_element">
+                        <div class="container_menu_list_element" 
+                             onclick="Interface.setState(2); Interface.setMenu(1);">
                             Classes &amp; Events
                         </div>
-                        <div class="container_menu_list_element">
-                            Users
+                        <div class="container_menu_list_element" 
+                             onclick="Interface.setState(2); Interface.setMenu(2);">
+                            Interfaces
                         </div>
-                        <div class="container_menu_list_element">
-                            Users
+                        <div class="container_menu_list_element" 
+                             onclick="Interface.setState(2); Interface.setMenu(3);">
+                            Facilities
                         </div>
                     </div>
                 </div>
             </div>
             <div id="container_menu_elements" class="container_state">
                 <div class="container_menu_element" id="container_menu_users">
-                    <!-- Users, Groups, +, -. Each users has an array of notices, an timetable object and a info object attached to them-->
+                    <div class="menu_header">
+                        <div class="menu_header_back" onclick="Interface.setState(1);">
+                            
+                        </div>
+                        <div class="menu_header_title">
+                            Students &amp; Staff
+                        </div>
+                        <div class="menu_header_refresh">
+                            
+                        </div>
+                    </div>
+                    <div class="menu_sidebar">
+                        <div class="menu_sidebar_list">
+                            <div class="menu_sidebar_list_title">
+                                Students
+                            </div>
+                            <div class="menu_sidebar_list_contents">
+                                <div class="menu_sidebar_list_element">
+                                    <div class="menu_sidebar_list_element_photo">
+                                        
+                                    </div>
+                                    <div class="menu_sidebar_list_element_name">
+                                        Nathan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu_sidebar_list">
+                            <div class="menu_sidebar_list_title">
+                                Teachers
+                            </div>
+                            <div class="menu_sidebar_list_contents">
+                                
+                            </div>
+                        </div>
+                        <div class="menu_sidebar_list">
+                            <div class="menu_sidebar_list_title">
+                                Groups
+                            </div>
+                            <div class="menu_sidebar_list_contents">
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_classes">
-                   
+                <div class="container_menu_element" id="container_menu_classes" style="top:100%;">
+                   <div class="menu_header">
+                        <div class="menu_header_back" onclick="Interface.setState(1);">
+                            
+                        </div>
+                        <div class="menu_header_title">
+                            Classes &amp; Events
+                        </div>
+                        <div class="menu_header_refresh">
+                            
+                        </div>
+                    </div>
+                    <div class="menu_sidebar">
+                        
+                    </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_interfaces">
-                   
+                <div class="container_menu_element" id="container_menu_interfaces" style="top:200%;">
+                   <div class="menu_header">
+                        <div class="menu_header_back" onclick="Interface.setState(1);">
+                            
+                        </div>
+                        <div class="menu_header_title">
+                            Interfaces
+                        </div>
+                        <div class="menu_header_refresh">
+                            
+                        </div>
+                    </div>
+                    <div class="menu_sidebar">
+                        
+                    </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_facilities">
-                   
+                <div class="container_menu_element" id="container_menu_facilities" style="top:300%;">
+                   <div class="menu_header">
+                        <div class="menu_header_back" onclick="Interface.setState(1);">
+                            
+                        </div>
+                        <div class="menu_header_title">
+                            Facilities
+                        </div>
+                        <div class="menu_header_refresh">
+                            
+                        </div>
+                    </div>
+                    <div class="menu_sidebar">
+                        
+                    </div>
                 </div>
             </div>
         </div>

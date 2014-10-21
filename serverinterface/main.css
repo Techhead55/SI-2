@@ -71,3 +71,85 @@
     width: 100%;
     height: 100%;
 }
+.menu_header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-bottom: grey 1px solid;
+}
+.menu_header_back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: inherit;
+    border-right: grey 1px solid;
+}
+.menu_header_title {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: Calc(100% - 80px);
+    height: inherit;
+}
+.menu_header_refresh {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: inherit;
+    border-left: grey 1px solid;
+}
+.menu_sidebar {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 250px;
+    height: Calc(100% - 40px);
+    border-right: grey 1px solid;
+}
+.menu_sidebar_list {
+    position: relative;
+    display: flex;
+    left: 0;
+    width: 100%;
+    height: 33.3333%;
+    border-bottom: grey 1px solid;
+}
+.menu_sidebar_list_title {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-bottom: grey 1px solid;
+}
+.menu_sidebar_list_contents {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 100%;
+    height: Calc(100% - 30px);
+    overflow-y: scroll;
+}
+.menu_sidebar_list_element {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 35px;
+    border-bottom: grey 1px solid;
+}
+.menu_sidebar_list_element_name {
+    position: absolute;
+    left: 35px;
+    width: Calc(100% - 35px);
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-left: grey 1px solid;
+}

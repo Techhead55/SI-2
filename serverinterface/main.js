@@ -30,6 +30,17 @@ window.onload = function(){
                 left: ""+(-(window.innerWidth*statePosit))
             }, 1000 );
             Interface.setURLParam("state", statePosit)
+        },
+        setMenu: function(menuPosit){
+            $("#container_menu_elements").animate({
+                top: ""+(-(window.innerHeight*menuPosit))
+            }, 1 );
+            window.onresize = function(){
+                document.getElementById("container").style.left =
+                    (-(window.innerWidth*Interface.URLParams.state))+"px";
+                document.getElementById("container_menu_elements").style.top =
+                    (-(window.innerHeight*menuPosit))+"px";
+            };
         }
     };
     if (Interface.getURLParam("state")!==null){
@@ -44,4 +55,8 @@ window.onload = function(){
         window.open('','_self',''); 
         window.close();
     });
+    window.onresize = function(){
+        document.getElementById("container").style.left =
+            (-(window.innerWidth*Interface.URLParams.state))+"px";
+    };
 };
