@@ -16,8 +16,10 @@ MicroController.Board.on("ready", function(){
             lib.MicroController.LCD.clear().cursor(0, 0).print(m[0]);
             lib.MicroController.LCD.cursor(1, 0).print(m[1]);
         };
+        Network.connect(3780, "127.0.0.1", function(client){
+            
+        });
         Interface.initialise(3780);
-        // Change to config file
         Interface.registerRequestHandler("/", "/clientinterface/index.html");
         Interface.registerRequestHandler("/stylesheet", "/clientinterface/main.css");
         Interface.registerRequestHandler("/script", "/clientinterface/main.js");

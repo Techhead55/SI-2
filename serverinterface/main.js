@@ -39,6 +39,9 @@ window.onload = function(){
     }
     Interface.states.splash.onclick = function(){
         Interface.setState(1);
-        console.log("check");
     };
+    Interface.coms.on('disconnect', function(){
+        window.open('','_self',''); 
+        window.close();
+    });
 };

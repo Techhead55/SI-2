@@ -16,23 +16,32 @@ var lib = {},
 require('shelljs/global');
 lib.System = {
     hardwareOut: function(){},
+    BWLog: [],
     drawBack: function (){
         console.log(colour.bgXterm(15)(" ").repeat(colour.width-1));
         process.stdout.write(colour.move(0, -1));
     },
     print: function(m){
         lib.System.drawBack();
-        console.log(colour.xterm(40).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        var fm = colour.xterm(40).bgXterm(15)("SI^2 "+lib.System.command({
+            osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
+        })+": ")+colour.xterm(0).bgXterm(15)(m);
+        console.log(fm);
+        lib.System.BWLog.push(fm);
         lib.System.hardwareOut(m);
     },
     warn: function(m){
         lib.System.drawBack();
-        console.warn(colour.xterm(202).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        console.warn(colour.xterm(202).bgXterm(15)("SI^2 "+lib.System.command({
+            osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
+        })+": ")+colour.xterm(0).bgXterm(15)(m));
         lib.System.hardwareOut(m);
     },
     error: function(m){
         lib.System.drawBack();
-        console.error(colour.xterm(9).bgXterm(15)("SI^2: ")+colour.xterm(0).bgXterm(15)(m));
+        console.error(colour.xterm(9).bgXterm(15)("SI^2 "+lib.System.command({
+            osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
+        })+": ")+colour.xterm(0).bgXterm(15)(m));
         lib.System.hardwareOut(m);
     },
     clear: function(){
@@ -48,7 +57,7 @@ lib.System = {
         return process.platform.replace("win32", "Windows").replace("win64", "Windows").replace("win86", "Windows").replace("darwin", "OSX").toLowerCase();
     },
     command: function(commands){
-        return exec(commands[lib.System.os()], {silent:true}).output;
+        return exec(commands[lib.System.os()], {silent:true}).output.replace("\n", "");
     },
     printHeader: function(){
         lib.System.drawBack();
@@ -58,6 +67,12 @@ lib.System = {
         lib.System.clear();
         process.stdout.write(colour.moveTo(0, 0));
         lib.System.printHeader()
+        // Array Remove - By John Resig (MIT Licensed)
+        Array.prototype.remove = function(from, to) {
+            var rest = this.slice((to || from) + 1 || this.length);
+            this.length = from < 0 ? this.length + from : from;
+            return this.push.apply(this, rest);
+        };
     }
 };
 lib.MicroController = {
@@ -73,7 +88,7 @@ lib.Interface = {
         lib.System.print("Interface request handler registered: "+reqDir+" --> "+resDir);
         lib.Interface.application.get(reqDir, function(req, res){
             lib.System.print("Interface served request: "+reqDir+" --> "+resDir);
-            res.sendfile(__dirname + resDir);
+            res.sendFile(__dirname + resDir);
         });
     },
     initialise: function(port){
@@ -91,22 +106,35 @@ lib.Interface = {
     }
 };
 lib.Network = {
-    connect: function(port){
-        lib.Network.client = net.connect({port: port}, function(){
+    connect: function(port, host, callback){
+        lib.Network.client = net.connect(port, host, function(){
             lib.System.print("Server connection established.");
+            lib.Network.connectionEvent = callback;
+            callback(lib.Network.client);
         });
     },
-    host: function(port){
-        lib.Network.server = net.createServer(function(socket){
-            lib.System.print("Server initialised.");
-        });
+    host: function(port, callback){
+        lib.Network.sockets = [];
+        lib.Network.server = net.createServer(callback);
         lib.Network.server.listen(port, function(){
-            lib.System.print("Server listening on port "+port);
+            var Address = lib.Network.server.address();
+            lib.System.print("Server is running on port "+Address.port+" at "+Address.ip);
         });
     },
-    on: function(key, callback){
-        lib.System.print("Server event listener registered.");
-        lib.Network.client.on(key, callback);
+    events: {},
+    registerEvent: function(eventID, callback){
+        Network.events[eventID] = callback;
+    },
+    event: function(event, Socket){
+        if (event.ID){
+            if (Network.events[event.ID]){
+                Network.events[event.ID](event, Socket);
+            } else {
+                System.warn("No events with the ID "+event.ID+" were found.");
+            }
+        } else {
+            System.warn("Event did not identify itself.");
+        }
     },
     emit: function(key, contents){
         lib.System.print("Server emited "+key+" event, with the contents "+contents);
@@ -117,6 +145,7 @@ lib.Network = {
     }
 };
 lib.Cryptography = {
+    key: "d045e7340fba903f3905d5671530a1ad",
     AES: CryptoJS.AES, 
     generateToken: function(){
         return hat();
