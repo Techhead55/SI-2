@@ -12,37 +12,48 @@ var lib = {},
     jFive = require("johnny-five"),
     net = require("net"),
     CryptoJS = require('./CryptoJS.js'),
-    hat = require('hat');
+    hat = require('hat'),
+    dirty = require('dirty');
 require('shelljs/global');
 lib.System = {
     hardwareOut: function(){},
-    BWLog: [],
+    IMLUE: function(m){
+        
+    },
+    writtenLog: [],
     drawBack: function (){
         console.log(colour.bgXterm(15)(" ").repeat(colour.width-1));
         process.stdout.write(colour.move(0, -1));
     },
     print: function(m){
-        lib.System.drawBack();
-        var fm = colour.xterm(40).bgXterm(15)("SI^2 "+lib.System.command({
+        var stamp = "SI^2 "+lib.System.command({
             osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
-        })+": ")+colour.xterm(0).bgXterm(15)(m);
-        console.log(fm);
-        lib.System.BWLog.push(fm);
+        })+": ";
+        lib.System.writtenLog.push(stamp+"[INFO] "+m);
+        lib.System.drawBack();
+        console.warn(colour.xterm(40).bgXterm(15)(stamp)+colour.xterm(0).bgXterm(15)(m));
         lib.System.hardwareOut(m);
+        lib.System.IMLUE(stamp+"[INFO] "+m);
     },
     warn: function(m){
-        lib.System.drawBack();
-        console.warn(colour.xterm(202).bgXterm(15)("SI^2 "+lib.System.command({
+        var stamp = "SI^2 "+lib.System.command({
             osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
-        })+": ")+colour.xterm(0).bgXterm(15)(m));
+        })+": ";
+        lib.System.writtenLog.push(stamp+"[WARN] "+m);
+        lib.System.drawBack();
+        console.warn(colour.xterm(202).bgXterm(15)(stamp)+colour.xterm(0).bgXterm(15)(m));
         lib.System.hardwareOut(m);
+        lib.System.IMLUE(stamp+"[WARN] "+m);
     },
     error: function(m){
-        lib.System.drawBack();
-        console.error(colour.xterm(9).bgXterm(15)("SI^2 "+lib.System.command({
+        var stamp = "SI^2 "+lib.System.command({
             osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
-        })+": ")+colour.xterm(0).bgXterm(15)(m));
+        })+": ";
+        lib.System.writtenLog.push(stamp+"[ERROR] "+m);
+        lib.System.drawBack();
+        console.warn(colour.xterm(9).bgXterm(15)(stamp)+colour.xterm(0).bgXterm(15)(m));
         lib.System.hardwareOut(m);
+        lib.System.IMLUE(stamp+"[ERROR] "+m);
     },
     clear: function(){
         console.log(colour.reset);
@@ -67,23 +78,18 @@ lib.System = {
         lib.System.clear();
         process.stdout.write(colour.moveTo(0, 0));
         lib.System.printHeader()
-        // Array Remove - By John Resig (MIT Licensed)
-        Array.prototype.remove = function(from, to) {
-            var rest = this.slice((to || from) + 1 || this.length);
-            this.length = from < 0 ? this.length + from : from;
-            return this.push.apply(this, rest);
-        };
     }
 };
 lib.MicroController = {
     jFive: jFive,
     initialise: function(){
         if (System.os() === "windows") lib.MicroController.Board = new jFive.Board({port:"COM3"});
-        if (System.os() === "linux") lib.MicroController.Board = new jFive.Board({});
+        if (System.os() === "linux" || System.os() === "osx") lib.MicroController.Board = new jFive.Board({});
         lib.MicroController.Board.debug = false;
     }
 };
 lib.Interface = {
+    sockets: [],
     registerRequestHandler: function(reqDir, resDir){
         lib.System.print("Interface request handler registered: "+reqDir+" --> "+resDir);
         lib.Interface.application.get(reqDir, function(req, res){
@@ -91,18 +97,34 @@ lib.Interface = {
             res.sendFile(__dirname + resDir);
         });
     },
-    initialise: function(port){
+    initialise: function(port, securityCode){
         lib.Interface.application = express();
         lib.Interface.server = HTTP.createServer(lib.Interface.application);
         lib.Interface.server.listen(port);
-        lib.System.print("Interface listening on port "+port);
+        lib.System.print("Interface listening on port "+port+", with the security code "+securityCode);
         lib.Interface.coms = socketIO.listen(lib.Interface.server, {log: false});
         lib.System.print("Interface coms have been initiated.");
         lib.Interface.coms.origins("localhost:"+port);
+        lib.Interface.port = port;
         lib.System.print("Coms are locked to port "+port);
     },
-    open: function(){
-        
+    events: {},
+    registerEvent: function(eventID, callback){
+        lib.Interface.events[eventID] = callback;
+        System.print("Interface coms event registered: "+eventID);
+    },
+    event: function(event, Socket){
+        System.print("Received interface event");
+        if (event.ID){
+            if (lib.Interface.events[event.ID]){
+                lib.Interface.events[event.ID](event, Socket);
+                System.print("Interface event identified as "+event.ID);
+            } else {
+                System.warn("No interface events with the ID "+event.ID+" were found.");
+            }
+        } else {
+            System.warn("Interface event did not identify itself.");
+        }
     }
 };
 lib.Network = {
@@ -124,29 +146,38 @@ lib.Network = {
     events: {},
     registerEvent: function(eventID, callback){
         Network.events[eventID] = callback;
+        System.print("Network coms event registered: "+eventID);
     },
     event: function(event, Socket){
+        System.print("Received server event.");
         if (event.ID){
-            if (Network.events[event.ID]){
-                Network.events[event.ID](event, Socket);
+            if (lib.Network.events[event.ID]){
+                lib.Network.events[event.ID](event, Socket);
+                System.print("Server event identified as "+event.ID);
             } else {
-                System.warn("No events with the ID "+event.ID+" were found.");
+                System.warn("No server events with the ID "+event.ID+" were found.");
             }
         } else {
-            System.warn("Event did not identify itself.");
+            System.warn("Server event did not identify itself.");
         }
     },
-    emit: function(key, contents){
-        lib.System.print("Server emited "+key+" event, with the contents "+contents);
-        lib.Network.client.emit(key,callback);
+    makeRequest: function(request, callback){
+        request.referer = Math.floor(Math.random() * 550000) + 100;
+        Network.registerEvent("response:"+request.referer, function(Event, Socket){
+            callback(Event, Socket);
+        });
+        Network.emit(request);
+    },
+    emit: function(contents){
+        lib.System.print("Client emited event, with the contents "+contents+" to the server");
+        lib.Network.client.write(JSON.stringify(contents));
     },
     disconnect: function(){
         lib.Network.client.end();
     }
 };
 lib.Cryptography = {
-    key: "d045e7340fba903f3905d5671530a1ad",
-    AES: CryptoJS.AES, 
+    AES: CryptoJS.AES,
     generateToken: function(){
         return hat();
     },
@@ -155,8 +186,53 @@ lib.Cryptography = {
     }
 };
 lib.Database = {
-    initialise: function(){
-        
+    store: {},
+    initialise: function(filePath, callback){
+        if (arguments.length>0){
+            lib.Database.store = dirty('data.db');
+        } else {
+            lib.Database.store = dirty();
+        }
+        lib.Database.set = function(key, val){
+            lib.Database.store.set(key, val);
+        };
+        lib.Database.get = function(key){
+            lib.Database.store.get(key);
+        };
+        lib.Database.end = function(){
+            lib.Database.store.close();
+        };
+        lib.Database.forEach = function(callback){
+            lib.Database.store.forEach(callback);
+        };
+        lib.Database.backup = function(){
+            
+        };
+        lib.Database.store.on('error', function(err) {
+            System.warn(err);
+        });
+    },
+    findPairs: function(keyType){
+        var pairs=[];
+        lib.Database.store.forEach(function(key, value){
+            if (key.indexOf(keyType)===0) pairs.push({key: key, val: value})
+        });
+        return pairs;
+    },
+    find: function (keyValue){
+        var pairs=[],
+            propName;
+        for (i in keyValue){
+            propName = i;
+            break;
+        }
+        lib.Database.store.forEach(function(key, value){
+            for (point in value){
+                if (point===propName && value[point]===keyValue[propName]) 
+                    pairs.push({key: key, val: value});
+            }
+        });
+        return pairs;
     }
 };
 lib.initialise = function(){

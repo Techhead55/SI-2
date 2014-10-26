@@ -2,11 +2,31 @@
 <html>
     <head>
         <title>SI^2 Client</title>
-        <script src="/script"></script>
+        <script>
+            (function(loadObjects){
+                var securityCode = document.URL.split(window.location.origin+"/")[1].split("?")[0];
+                for (var loadObject in loadObjects){
+                    var element = document.createElement(loadObjects[loadObject].type);
+                    if (loadObjects[loadObject].type==="script") element.setAttribute("src", "/"+securityCode+loadObjects[loadObject].url);
+                    if (loadObjects[loadObject].type==="link"){
+                        element.setAttribute("href", "/"+ securityCode+loadObjects[loadObject].url);
+                        element.setAttribute("type", "text/css");
+                        element.setAttribute("rel", "stylesheet");
+                    }
+                    document.head.appendChild(element);
+                }
+            })([
+                {type: "script", url: "script"}, 
+                {type: "script", url: "CryptoJS"}, 
+                {type: "script", url: "jquery"}, 
+                {type: "link", url: "stylesheet"}
+            ]);
+        </script>
+        <!--<script src="/script"></script>
         <script src="/CryptoJS"></script>
         <script src="/jquery"></script>
+        <link type="text/css" rel="stylesheet" href="/stylesheet"/>-->
         <script src="/socket.io/socket.io.js"></script>
-        <link type="text/css" rel="stylesheet" href="/stylesheet"/>
     </head>
     <body>
         <div id="container">
@@ -20,7 +40,9 @@
             </div>
             <div id="container_menu" class="container_state">
                 <div id="container_menu_container">
-                    <div id="container_menu_title">SI^2</div>
+                    <div id="container_menu_title">
+                        <img height="30" width="90" style="margin-top: 5px;" src="/ssiilogo" />
+                    </div>
                     <div id="container_menu_list_elements">
                         <div class="container_menu_list_element" 
                              onclick="Interface.setState(2); Interface.setMenu(0);">
@@ -38,6 +60,10 @@
                              onclick="Interface.setState(2); Interface.setMenu(3);">
                             Facilities
                         </div>
+                        <div class="container_menu_list_element" 
+                             onclick="Interface.setState(2); Interface.setMenu(4);">
+                            Server
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,7 +71,7 @@
                 <div class="container_menu_element" id="container_menu_users">
                     <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
-                            
+                            BACK
                         </div>
                         <div class="menu_header_title">
                             Students &amp; Staff
@@ -59,22 +85,15 @@
                             <div class="menu_sidebar_list_title">
                                 Students
                             </div>
-                            <div class="menu_sidebar_list_contents">
-                                <div class="menu_sidebar_list_element">
-                                    <div class="menu_sidebar_list_element_photo">
-                                        
-                                    </div>
-                                    <div class="menu_sidebar_list_element_name">
-                                        Nathan
-                                    </div>
-                                </div>
+                            <div id='studentList' class="menu_sidebar_list_contents">
+                                
                             </div>
                         </div>
                         <div class="menu_sidebar_list">
                             <div class="menu_sidebar_list_title">
                                 Teachers
                             </div>
-                            <div class="menu_sidebar_list_contents">
+                            <div  id='teacherList' class="menu_sidebar_list_contents">
                                 
                             </div>
                         </div>
@@ -82,7 +101,7 @@
                             <div class="menu_sidebar_list_title">
                                 Groups
                             </div>
-                            <div class="menu_sidebar_list_contents">
+                            <div id='groupList' class="menu_sidebar_list_contents">
                                 
                             </div>
                         </div>
@@ -91,7 +110,7 @@
                 <div class="container_menu_element" id="container_menu_classes" style="top:100%;">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
-                            
+                            BACK
                         </div>
                         <div class="menu_header_title">
                             Classes &amp; Events
@@ -107,7 +126,7 @@
                 <div class="container_menu_element" id="container_menu_interfaces" style="top:200%;">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
-                            
+                            BACK
                         </div>
                         <div class="menu_header_title">
                             Interfaces
@@ -123,7 +142,7 @@
                 <div class="container_menu_element" id="container_menu_facilities" style="top:300%;">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
-                            
+                            BACK
                         </div>
                         <div class="menu_header_title">
                             Facilities
@@ -134,6 +153,58 @@
                     </div>
                     <div class="menu_sidebar">
                         
+                    </div>
+                </div>
+                <div class="container_menu_element" id="container_menu_server" style="top:400%;">
+                   <div class="menu_header">
+                        <div class="menu_header_back" onclick="Interface.setState(1);">
+                            BACK
+                        </div>
+                        <div class="menu_header_title">
+                            Server
+                        </div>
+                    </div>
+                    <div class="menu_sidebar">
+                        <div class="menu_sidebar_list" style="height: 100%; overflow-y: scroll;">
+                            <div class="menu_sidebar_list_element" 
+                                 id="Mission_Control_Selector"
+                                 onclick="Interface.toggleElementList(['Server_Console', 'Database_Manager'], 'Mission_Control');">
+                                Mission Control
+                            </div>
+                            <div class="menu_sidebar_list_element"
+                                 id="Server_Console_Selector"
+                                 onclick="Interface.toggleElementList(['Mission_Control', 'Database_Manager'], 'Server_Console');">
+                                Server Console
+                            </div>
+                            <div class="menu_sidebar_list_element"
+                                 id="Database_Manager_Selector"
+                                 onclick="Interface.toggleElementList(['Mission_Control', 'Server_Console'], 'Database_Manager');">
+                                Database Manager
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Mission_Control" class="menu_contents">
+                        <div class="menu_contents_statusbar" style="top: Calc(50% - 50px);">
+                            <center>
+                                <div class="menu_contents_statusbar_element" style="">
+                                    <div class="menu_contents_statusbar_element_icon">
+                                        <div class="menu_contents_statusbar_element_icon_inner"
+                                             style="background-color: #99D9F2;">
+                                            30
+                                        </div>
+                                    </div>
+                                    <div class="menu_contents_statusbar_element_name">
+                                        Interfaces
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                    <div id="Server_Console" class="menu_contents">
+                        
+                    </div>
+                    <div id="Database_Manager" class="menu_contents">
+                        CHeck Check B
                     </div>
                 </div>
             </div>

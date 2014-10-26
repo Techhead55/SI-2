@@ -1,5 +1,44 @@
-#container_general_logo {
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Raleway ExtraLight'), local('Raleway-ExtraLight'), url(/raleway) format('truetype');
+}
+* {
+    font-family: 'Raleway';
+}
+#container {
     position: fixed;
-    top: Calc(50% - 150px);
-    left: Calc(50% - 150px);
+    height: 100%;
+    width: 200%;
+    top: 0;
+    left: 0;
+}
+.container_state {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+#container_splash {
+    left: 0%;
+}
+#container_menu {
+    left: 50%;
+}
+#container_general_logo {
+    position: absolute;
+    top: Calc(50% - 100px);
+    left: Calc(50% - 100px);
+}
+#container_general_timeAndTemp {
+    position: absolute;
+    width: 200px;
+    height: 70px;
+    top: Calc(50% + 100px);
+    left: Calc(50% - 100px);
+    line-height: 70px;
+    text-align: center;
+    font-size: 30px;
 }

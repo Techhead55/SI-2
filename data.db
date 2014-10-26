@@ -1,0 +1,18 @@
+{"key":"user_d741e52d3d764fc176226adb6eb0acf4","val":{"name":"Taylor Horton","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_8cc41cdd92235d37d904e78c8688d261","val":{"name":"Nathan Horton","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_6cbdd07b46e5accb81be21b3adb8d932","val":{"name":"Joanna Tang","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_fdcf8d1ef67f7b907e782363d74015bb","val":{"name":"Annabelle Goonasekera","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_c1dfc0c4a822ae105e7abd6bbef1f0fb","val":{"name":"Laura Bruce-Smith","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_e5b1a1a3d92e12ff699e4cb4a88bb66c","val":{"name":"Nicholas Houseman","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_e482229010ca7a20f7f6d021220aa612","val":{"name":"Jennifer Hernandaz-Font","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_a68a6a67e28044c0d2f1e3dbd01662ee","val":{"name":"Trent Campbell","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_529e19c32c704c4a1b50fd1fe0dee30f","val":{"name":"Sarah Turner","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_102c74a90438e34c3c410655677476ac","val":{"name":"Jessie Lee-Callaghan","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_d304f39a5fa27d6c0c566ed5147cf159","val":{"name":"Nicole Antonio","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_0f9dfdcee90edfb34279037a4914b473","val":{"name":"Jessica Body","type":"student","year":9,"pod":"Grevillea"}}
+{"key":"user_610c959a8c0bc663b00b93289c40c746","val":{"name":"Neelum Naidu","type":"teacher"}}
+{"key":"user_17c1f2b9d97cf889f53be06cb2b32dd1","val":{"name":"Patrick Behan","type":"teacher"}}
+{"key":"group_4788f9e86120dabfa389855648230791","val":{"name":"Grevillea Students","field":{"pod":"Grevillea","type":"student"}}}
+{"key":"group_4a9d29b33af97825d8ef0c205c2042e7","val":{"name":"Grevillea Teachers","field":{"pod":"Grevillea","type":"teacher"}}}
+{"key":"room_b3b65e5b21dc87e08217a72b38b9b2dd","val":{"roomID":"R53"}}
+{"key":"event_478c9ac9b041656ee3356bdd3c1a3b9a","val":{"name":"SCI092G","roomID":"R53", "time":{"start":{"hour":9,"minute":45},"finish":{"hour":10,"minute":45}}}}
