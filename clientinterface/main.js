@@ -69,7 +69,9 @@ window.onload = function(){
             ID: "temp"
         }, function(EventTemp, SocketTemp){
             document.getElementById("container_general_timeAndTemp").innerHTML = 
-                EventTime.Contents.Hour+":"+EventTime.Contents.Minute+EventTime.Contents.Half+" "+EventTemp.Contents.toFixed(1)+"°";
+                EventTime.Contents.Hour+":"+
+                ((EventTime.Contents.Minute+"").length===1?("0"+EventTime.Contents.Minute):(EventTime.Contents.Minute))+
+                EventTime.Contents.Half+"&nbsp;&nbsp;&nbsp;"+EventTemp.Contents.toFixed(1)+"°";
         });
     });
     setInterval(function(){
@@ -80,7 +82,9 @@ window.onload = function(){
                 ID: "temp"
             }, function(EventTemp, SocketTemp){
                 document.getElementById("container_general_timeAndTemp").innerHTML = 
-                    EventTime.Contents.Hour+":"+EventTime.Contents.Minute+EventTime.Contents.Half+" "+EventTemp.Contents.toFixed(1)+"°";
+                    EventTime.Contents.Hour+":"+
+                    ((EventTime.Contents.Minute+"").length===1?("0"+EventTime.Contents.Minute):(EventTime.Contents.Minute))+
+                    EventTime.Contents.Half+"&nbsp;&nbsp;&nbsp;"+EventTemp.Contents.toFixed(1)+"°";
             });
         });
     }, 60000);

@@ -47,7 +47,7 @@ MicroController.Board.on("ready", function(){
         Interface.registerRequestHandler("/script", "/clientinterface/main.js");
         Interface.registerRequestHandler("/jquery", "/clientinterface/jquery.js");
         Interface.registerRequestHandler("/logo", "/clientinterface/logo.png");
-        Interface.registerRequestHandler("/raleway", "/clientinterface/raleway.ttf");
+        Interface.registerRequestHandler("/opensans", "/clientinterface/opensans.woff2");
         Interface.registerEvent("time", function(Event, Socket){
             Network.makeRequest({
                 ID: "time"
@@ -74,7 +74,8 @@ MicroController.Board.on("ready", function(){
             });
         });
         System.print(System.command({
-            osx: 'open -a "Google\ Chrome" http://localhost:'+Interface.port
+            osx: 'open -a "Google\ Chrome" http://localhost:'+Interface.port,
+            linux: '/usr/bin/chromium --incognito --kosk http://localhost:'+Interface.port
         }));
     });
 });

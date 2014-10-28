@@ -4,6 +4,13 @@ System.initialise();
 Database.initialise("datab.db");
 Database.store.on('load', function(){
     System.print("Database has been loaded");
+    Statistics.Entries = Database.entries();
+    Interface.registerEvent("get", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: Database.store.get(Event.Contents)
+        });
+    });
     Interface.registerEvent("find", function(Event, Socket){
         Socket.emit("data", {
             ID: "response:"+Event.referer,
@@ -16,15 +23,40 @@ Database.store.on('load', function(){
             Contents: Database.findPairs(Event.Contents)
         });
     });
+    Interface.registerEvent("set", function(Event, Socket){
+        Database.store.set(Event.Contents.key, Event.Contents.doc);
+    });
+    Interface.registerEvent("remove", function(Event, Socket){
+        Database.store.remove(Event.Contents);
+    });
+    Interface.registerEvent("get", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: {
+                key: Event.key,
+                doc: Database.store.get(Event.key)
+            }
+        });
+    });
+    Interface.registerEvent("hash", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: Cryptography.generateToken()
+        });
+    });
 });
 Network.host(3780, function(Socket){
     System.print("An interface has connected.");
+    Statistics.Interfaces += 1;
+    Statistics.update();
     Socket.on('data', function(event){
         event = JSON.parse(event.toString());
         Network.event(event, Socket);
     });
     Socket.on('end', function(){
         System.warn("An interface has disconnected.")
+        Statistics.Interfaces -= 1;
+        Statistics.update();
     });
     Network.registerEvent("find", function(Event, Socket){
         Socket.write(JSON.stringify({
@@ -67,6 +99,10 @@ Interface.registerRequestHandler("/ssiilogo", "/serverinterface/ssiilogo.png");
 Interface.registerRequestHandler("/ccclogo", "/serverinterface/ccclogo.png");
 Interface.registerRequestHandler("/"+Interface.securityCode+"CryptoJS", "/CryptoJS.js");
 Interface.registerRequestHandler("/raleway", "/serverinterface/raleway.ttf");
+Interface.application.get("/image", function(req, res){
+    lib.System.print("Interface served image request for ID "+req.query.ID);
+    res.sendFile(__dirname + "/filebase/"+req.query.ID);
+});
 Interface.coms.on('connection', function(Socket){
     System.print("Coms have been established with the interface.");
     Socket.on('data', function(event){
@@ -75,12 +111,43 @@ Interface.coms.on('connection', function(Socket){
     Socket.on('disconnect', function(){
         System.warn("Coms have been lost.");
     });
+    Interface.registerEvent("Console Message Repository", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: System.writtenLog
+        });
+    });
+    Interface.registerEvent("Initial Statistics", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: {
+                Interfaces: Statistics.Interfaces,
+                Data_Entries: Statistics.Entries
+            }
+        });
+    });
+    Interface.registerEvent("Shutdown", function(Event, Socket){
+        process.kill();
+    });
+    Interface.registerEvent("Restart", function(Event, Socket){
+        System.warn("Shutdown event recieved, server terminatng now.");
+        process.kill();
+    });
     System.IMLUE = function(m){
         Socket.emit("data", {
             ID: "Console Message",
             Message: m
         });
     }
+    Statistics.update = function(){
+        Socket.emit("data", {
+        ID: "Statistics Update",
+            Contents: {
+                Interfaces: Statistics.Interfaces,
+                Data_Entries: Statistics.Entries
+            }
+        });
+    };
 });
 System.print(System.command({
     osx: 'open -a "Google\ Chrome" http://localhost:'+Interface.port+'/'+Interface.securityCode

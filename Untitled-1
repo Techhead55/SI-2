@@ -1,0 +1,16 @@
+(function (ID){
+                        Interface.makeRequest({
+                            ID: &quot;get&quot;,
+                            key: ID
+                        }, function(GetEvent, GetSocket){
+                            console.log(GetEvent, ID);
+                            $(&quot;#students_and_staff_info_name&quot;)[0].value = GetEvent.Contents.doc.name;
+                            $(&quot;#students_and_staff_info_name&quot;)[0].setAttribute(&quot;referer&quot;, ID);
+                            $(&quot;#students_and_staff_info_name_item_delete&quot;)[0].setAttribute(&quot;referer&quot;, ID);
+                            $(&quot;#students_and_staff_icon&quot;)[0].setAttribute(&quot;action&quot;, &quot;upload?ID=&quot;+ID);
+                            $(&quot;#students_and_staff_icon_actual&quot;)[0].style.backgroundImage = &quot;url(/image?ID=&quot;+ID+&quot;)&quot;;
+                            $(&quot;#students_and_staff_icon_actual&quot;)[0].setAttribute(&quot;onchange&quot;, function(){
+                                $(&quot;#students_and_staff_icon&quot;)[0].submit()
+                            });
+                        });
+                    })('user_fdcf8d1ef67f7b907e782363d74015bb');

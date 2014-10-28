@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SI^2 Client</title>
+        <title>SI^2 Server Interface</title>
         <script>
             (function(loadObjects){
                 var securityCode = document.URL.split(window.location.origin+"/")[1].split("?")[0];
@@ -76,34 +76,64 @@
                         <div class="menu_header_title">
                             Students &amp; Staff
                         </div>
-                        <div class="menu_header_refresh">
-                            
+                        <div class="menu_header_status">
+                            NOT CONNNECTED
                         </div>
                     </div>
                     <div class="menu_sidebar">
-                        <div class="menu_sidebar_list">
-                            <div class="menu_sidebar_list_title">
+                        <div id="studentList_container" class="menu_sidebar_list">
+                            <div class="menu_sidebar_list_title"
+                                 onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#teacherList_container', '#groupList_container'], '#studentList_container')">
                                 Students
                             </div>
-                            <div id='studentList' class="menu_sidebar_list_contents">
+                            <div id="studentList_add" class="menu_sidebar_list_title_addbutton">+</div>
+                            <div id='studentList' class="menu_sidebar_list_contents"></div>
+                        </div>
+                        <div id="teacherList_container" class="menu_sidebar_list">
+                            <div class="menu_sidebar_list_title"
+                                onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#groupList_container', '#studentList_container'], '#teacherList_container')">
+                                Teachers
                                 
                             </div>
-                        </div>
-                        <div class="menu_sidebar_list">
-                            <div class="menu_sidebar_list_title">
-                                Teachers
-                            </div>
+                            <div id="teacherList_add" class="menu_sidebar_list_title_addbutton">+</div>
                             <div  id='teacherList' class="menu_sidebar_list_contents">
                                 
                             </div>
                         </div>
-                        <div class="menu_sidebar_list">
-                            <div class="menu_sidebar_list_title">
+                        <div id="groupList_container" class="menu_sidebar_list" style="border-bottom: none;">
+                            <div class="menu_sidebar_list_title"
+                                 onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#teacherList_container', '#studentList_container'], '#groupList_container')">
                                 Groups
+                                
                             </div>
+                            <div id="groupList_add" class="menu_sidebar_list_title_addbutton">+</div>
                             <div id='groupList' class="menu_sidebar_list_contents">
                                 
                             </div>
+                        </div>
+                    </div>
+                    <div id="student_and_teacher_content" class="menu_contents">
+                        <div class="item_info_container">
+                            <div class="item_info_icon_container">
+                                <form id="students_and_staff_icon" method='post' action='upload?ID=' enctype="multipart/form-data" >
+                                <input id="students_and_staff_icon_actual" class="item_info_icon" type='file' name='fileUploaded' accept="image/gif, image/jpeg, image/png" style="color:transparent;">
+                            </div>
+                            <input type="text" id="students_and_staff_info_name" class="item_info_name" />
+                            <div class="item_info_properties">
+                                <div class="item_info_properties_keys">
+                                    
+                                </div>
+                                <div class="item_info_properties_values">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu_contents_actionbar">
+                            <center>
+                                <div id="students_and_staff_info_name_item_delete" class="button red">
+                                    Delete User
+                                </div>
+                            </center>
                         </div>
                     </div>
                 </div>
@@ -115,11 +145,14 @@
                         <div class="menu_header_title">
                             Classes &amp; Events
                         </div>
-                        <div class="menu_header_refresh">
-                            
+                        <div class="menu_header_status">
+                            NOT CONNNECTED
                         </div>
                     </div>
                     <div class="menu_sidebar">
+                        
+                    </div>
+                    <div class="menu_contents">
                         
                     </div>
                 </div>
@@ -131,8 +164,8 @@
                         <div class="menu_header_title">
                             Interfaces
                         </div>
-                        <div class="menu_header_refresh">
-                            
+                        <div class="menu_header_status">
+                            NOT CONNNECTED
                         </div>
                     </div>
                     <div class="menu_sidebar">
@@ -147,8 +180,8 @@
                         <div class="menu_header_title">
                             Facilities
                         </div>
-                        <div class="menu_header_refresh">
-                            
+                        <div class="menu_header_status">
+                            NOT CONNNECTED
                         </div>
                     </div>
                     <div class="menu_sidebar">
@@ -163,11 +196,15 @@
                         <div class="menu_header_title">
                             Server
                         </div>
+                        <div class="menu_header_status">
+                            NOT CONNNECTED
+                        </div>
                     </div>
                     <div class="menu_sidebar">
                         <div class="menu_sidebar_list" style="height: 100%; overflow-y: scroll;">
                             <div class="menu_sidebar_list_element" 
                                  id="Mission_Control_Selector"
+                                 style="border-top: grey 1px solid;"
                                  onclick="Interface.toggleElementList(['Server_Console', 'Database_Manager'], 'Mission_Control');">
                                 Mission Control
                             </div>
@@ -188,14 +225,57 @@
                             <center>
                                 <div class="menu_contents_statusbar_element" style="">
                                     <div class="menu_contents_statusbar_element_icon">
-                                        <div class="menu_contents_statusbar_element_icon_inner"
+                                        <div id="Connected_Interfaces" class="menu_contents_statusbar_element_icon_inner"
                                              style="background-color: #99D9F2;">
-                                            30
+                                            0
                                         </div>
                                     </div>
                                     <div class="menu_contents_statusbar_element_name">
                                         Interfaces
                                     </div>
+                                </div>
+                                <div class="menu_contents_statusbar_element" style="">
+                                    <div class="menu_contents_statusbar_element_icon">
+                                        <div id="Data_Entries" class="menu_contents_statusbar_element_icon_inner"
+                                             style="background-color: #99D9F2;">
+                                            0
+                                        </div>
+                                    </div>
+                                    <div class="menu_contents_statusbar_element_name">
+                                        Data Entries
+                                    </div>
+                                </div>
+                                <div class="menu_contents_statusbar_element" style="">
+                                    <div class="menu_contents_statusbar_element_icon">
+                                        <div id="MEM_Usage" class="menu_contents_statusbar_element_icon_inner"
+                                             style="background-color: #99D9F2;">
+                                            0%
+                                        </div>
+                                    </div>
+                                    <div class="menu_contents_statusbar_element_name">
+                                        MEM Usage
+                                    </div>
+                                </div>
+                                <div class="menu_contents_statusbar_element" style="">
+                                    <div class="menu_contents_statusbar_element_icon">
+                                        <div id="MEM_Usage" class="menu_contents_statusbar_element_icon_inner"
+                                             style="background-color: #99D9F2;">
+                                            0%
+                                        </div>
+                                    </div>
+                                    <div class="menu_contents_statusbar_element_name">
+                                        CPU Usage
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="menu_contents_actionbar">
+                            <center>
+                                <div id="Server_Shutdown" class="button red">
+                                    Shutdown
+                                </div><div class="menu_contents_actionbar_padding">
+                                </div><div id="Server_Restart" class="button blue">
+                                    Restart
                                 </div>
                             </center>
                         </div>

@@ -2,7 +2,7 @@ String.prototype.repeat = function(num){
     return new Array(Math.round(num)+1).join(this);
 }
 var lib = {},
-    fs = require("fs"),
+    fs = require('fs-extra'),
     colour = require('cli-color'),
     readline = require('readline'),
     express = require('express'),
@@ -13,7 +13,9 @@ var lib = {},
     net = require("net"),
     CryptoJS = require('./CryptoJS.js'),
     hat = require('hat'),
-    dirty = require('dirty');
+    dirty = require('dirty'),
+    busboy = require('connect-busboy'),
+    path = require('path');
 require('shelljs/global');
 lib.System = {
     hardwareOut: function(){},
@@ -101,10 +103,24 @@ lib.Interface = {
         lib.Interface.application = express();
         lib.Interface.server = HTTP.createServer(lib.Interface.application);
         lib.Interface.server.listen(port);
+        lib.Interface.application.use(busboy());
+        lib.Interface.application.route('/upload').post(function (req, res, next) {
+            var fstream;
+            req.pipe(req.busboy);
+            req.busboy.on('file', function (fieldname, file, filename) {
+                lib.System.print("Interface uploading file " + filename+" as "+req.query.ID+".");
+                fstream = fs.createWriteStream(__dirname + '/filebase/' + req.query.ID);
+                file.pipe(fstream);
+                fstream.on('close', function () {    
+                    li.bSystem.print("Upload Finished of " + filename); 
+                    res.redirect('back');
+                });
+            });
+        });
         lib.System.print("Interface listening on port "+port+", with the security code "+securityCode);
         lib.Interface.coms = socketIO.listen(lib.Interface.server, {log: false});
         lib.System.print("Interface coms have been initiated.");
-        lib.Interface.coms.origins("localhost:"+port);
+        //lib.Interface.coms.origins("localhost:"+port);
         lib.Interface.port = port;
         lib.System.print("Coms are locked to port "+port);
     },
@@ -195,6 +211,7 @@ lib.Database = {
         }
         lib.Database.set = function(key, val){
             lib.Database.store.set(key, val);
+            lib.Statistics.Entries = lib.Database.entries();
         };
         lib.Database.get = function(key){
             lib.Database.store.get(key);
@@ -233,7 +250,19 @@ lib.Database = {
             }
         });
         return pairs;
+    },
+    entries: function(){
+        var entries=0;
+        lib.Database.store.forEach(function(){
+            entries += 1;
+        });
+        return entries;
     }
+};
+lib.Statistics = {
+    Interfaces: 0,
+    Entries: 0,
+    update: function(){}
 };
 lib.initialise = function(){
     for (i in lib) if (i !== "initialise") GLOBAL[i] = lib[i];
