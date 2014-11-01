@@ -9,21 +9,21 @@ window.onload = function(){
             menu: $("#container_menu")[0],
             menu_elements: $("#container_menu_elements")[0]
         },
-        getURLParam: function getParam(key){
+        getAllURLParam: function (){
+            return window.location.search.split(/[&?]+/).slice(1);
+        },
+        getURLParam: function (key){
             var val = window.location.search.split(/[&?]+/).slice(1).filter(function(v, i, o){
                 if (v.split("=")[0]===key) return v;
             }, this)[0];
             return val ? val.split("=")[1] : null;
         },
         setURLParam: function(key, value){
-            Interface.URLParams[key] = value;
-            history.pushState(null, null, "?"+(function(){
-                var list = [];
-                for (URLKey in Interface.URLParams){
-                    list.push(URLKey+"="+Interface.URLParams[URLKey]);
-                }
-                return list.join("&");
-            })());
+            var list = Interface.getAllURLParam().filter(function(v, i, o){
+                return v.split("=")[0]===key ? false : true;
+            });
+            list.push(key+"="+value);
+            history.pushState(null, null, "?"+list.join("&"));
         },
         setState: function(statePosit){
             $("#container").animate({
@@ -31,16 +31,21 @@ window.onload = function(){
             }, 1000 );
             Interface.setURLParam("state", statePosit)
         },
-        setMenu: function(menuPosit){
-            $("#container_menu_elements").animate({
-                top: ""+(-(window.innerHeight*menuPosit))
-            }, 1 );
-            window.onresize = function(){
-                document.getElementById("container").style.left =
-                    (-(window.innerWidth*Interface.URLParams.state))+"px";
-                document.getElementById("container_menu_elements").style.top =
-                    (-(window.innerHeight*menuPosit))+"px";
-            };
+        setMenu: function(selectedElementID){
+            console.log(selectedElementID);
+            var elementIDArray = [
+                'container_menu_users', 
+                'container_menu_events', 
+                'container_menu_interfaces', 
+                'container_menu_facilities', 
+                'container_menu_server'
+            ];
+            for (var element in elementIDArray){
+                document.getElementById(elementIDArray[element]).style.visibility = "hidden";
+            }
+            console.log(selectedElementID);
+            document.getElementById('container_menu_'+selectedElementID).style.visibility = "visible";
+            Interface.setURLParam("menu", selectedElementID);
         },
         events: {},
         registerEvent: function(eventID, callback){
@@ -132,10 +137,10 @@ window.onload = function(){
         },
         toggleElementList: function(elementIDArray, selectedElementID){
             for (var element in elementIDArray){
-                document.getElementById(elementIDArray[element]).style.visibility = "hidden";
+                document.getElementById(elementIDArray[element]).style.opacity = "0";
                 document.getElementById(elementIDArray[element]+"_Selector").style.backgroundColor = "#FFF";
             }
-            document.getElementById(selectedElementID).style.visibility = "visible";
+            document.getElementById(selectedElementID).style.opacity = "1";
             document.getElementById(selectedElementID+"_Selector").style.backgroundColor = "#e3e3e3";
         },
         mixElementWidth: function(height, headerHeight, minimized, maximised){
@@ -178,8 +183,15 @@ window.onload = function(){
     };
     if (Interface.getURLParam("state")!==null){
         Interface.setState(Interface.getURLParam("state"));
-    } else {
-        Interface.setState(Interface.URLParams.state)
+    }
+    if (Interface.getURLParam("menu")!==null){
+        Interface.setMenu([
+            'container_menu_users', 
+            'container_menu_events', 
+            'container_menu_interfaces', 
+            'container_menu_facilities', 
+            'container_menu_server'
+        ], 'container_menu_'+Interface.getURLParam("menu"));
     }
     Interface.states.splash.onclick = function(){
         Interface.setState(1);

@@ -86,6 +86,7 @@ textarea:focus, input:focus{
 .container_menu_element {
     position: absolute;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
 }
@@ -202,6 +203,10 @@ textarea:focus, input:focus{
     left: 250px;
     width: Calc(100% - 250px);
     height: Calc(100% - 40px);
+    overflow-y: scroll;
+}
+.menu_contents::-webkit-scrollbar {
+    display: none;
 }
 .menu_contents_lineElement {
     width: Calc(100% - 10px);
@@ -259,6 +264,19 @@ textarea:focus, input:focus{
     color: white;
     vertical-align: top;
 }
+.icon {
+    position: relative;
+    display: inline-block;
+    float: right;
+    height: 40px;
+    width: 40px;
+    border-radius: 7.5px;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    vertical-align: top;
+    font-size: 14Fpx;
+}
 .red {
     background-color: #E74C3C;
 }
@@ -280,6 +298,15 @@ textarea:focus, input:focus{
     line-height: 40px;
     vertical-align: top;
 }
+.menu_contents_actionbar_padding_icon {
+    position: relative;
+    display: inline-block;
+    width: 10px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: top;
+    float: right;
+}
 .item_info_container {
     position: absolute;
     height: Calc(100% - 70px);
@@ -290,7 +317,6 @@ textarea:focus, input:focus{
 .item_info_icon_container {
     padding-left: 75px;
     padding-right: 75px;
-    padding-top: 25px;
 }
 .item_info_icon {
     height: 150px;
@@ -307,6 +333,32 @@ textarea:focus, input:focus{
     -webkit-appearance: none;
     border: none;
     font-size: 20px;
+}
+.item_info_properties {
+    position: absolute;
+    top: 195px;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+.item_info_properties_keys {
+    width: 50%;
+    height: auto;
+    border-right: grey 1px solid;
+}
+.item_info_properties_values {
+    width: 50%;
+    height: auto;
+}
+.item_info_properties_key, .item_info_properties_value {
+    width: Calc(100% - 5px);
+    height: 20px;
+}
+.item_info_properties_key {
+    text-align: right;
+}
+.item_info_properties_value {
+    text-align: left;
 }
 #student_and_teacher_content {
     visibility: hidden;

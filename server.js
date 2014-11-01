@@ -27,7 +27,7 @@ Database.store.on('load', function(){
         Database.store.set(Event.Contents.key, Event.Contents.doc);
     });
     Interface.registerEvent("remove", function(Event, Socket){
-        Database.store.remove(Event.Contents);
+        Database.store.rm(Event.Contents);
     });
     Interface.registerEvent("get", function(Event, Socket){
         Socket.emit("data", {
@@ -127,10 +127,12 @@ Interface.coms.on('connection', function(Socket){
         });
     });
     Interface.registerEvent("Shutdown", function(Event, Socket){
+        System.warn("Shutdown event recieved, server terminatng now.");
+        Database.store.close();
         process.kill();
     });
     Interface.registerEvent("Restart", function(Event, Socket){
-        System.warn("Shutdown event recieved, server terminatng now.");
+        System.warn("Restart event recieved, server terminatng now.");
         process.kill();
     });
     System.IMLUE = function(m){

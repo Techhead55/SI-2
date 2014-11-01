@@ -45,23 +45,23 @@
                     </div>
                     <div id="container_menu_list_elements">
                         <div class="container_menu_list_element" 
-                             onclick="Interface.setState(2); Interface.setMenu(0);">
+                             onclick="Interface.setState(2); Interface.setMenu('users');">
                             Students &amp; Staff
                         </div>
                         <div class="container_menu_list_element" 
-                             onclick="Interface.setState(2); Interface.setMenu(1);">
+                             onclick="Interface.setState(2); Interface.setMenu('events');">
                             Classes &amp; Events
                         </div>
                         <div class="container_menu_list_element" 
-                             onclick="Interface.setState(2); Interface.setMenu(2);">
+                             onclick="Interface.setState(2); Interface.setMenu('interfaces');">
                             Interfaces
                         </div>
                         <div class="container_menu_list_element" 
-                             onclick="Interface.setState(2); Interface.setMenu(3);">
+                             onclick="Interface.setState(2); Interface.setMenu('facilities');">
                             Facilities
                         </div>
                         <div class="container_menu_list_element" 
-                             onclick="Interface.setState(2); Interface.setMenu(4);">
+                             onclick="Interface.setState(2); Interface.setMenu('server');">
                             Server
                         </div>
                     </div>
@@ -119,25 +119,30 @@
                                 <input id="students_and_staff_icon_actual" class="item_info_icon" type='file' name='fileUploaded' accept="image/gif, image/jpeg, image/png" style="color:transparent;">
                             </div>
                             <input type="text" id="students_and_staff_info_name" class="item_info_name" />
-                            <div class="item_info_properties">
-                                <div class="item_info_properties_keys">
-                                    
-                                </div>
-                                <div class="item_info_properties_values">
-                                    
-                                </div>
-                            </div>
                         </div>
-                        <div class="menu_contents_actionbar">
-                            <center>
-                                <div id="students_and_staff_info_name_item_delete" class="button red">
-                                    Delete User
-                                </div>
-                            </center>
+                            <!--
+
+WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
+
+                        <div class="item_info_properties">
+                            <div class="item_info_properties_keys">
+                                <div class="item_info_properties_key">Year</div>
+                                <div class="item_info_properties_key">Year</div>
+                            </div>
+                            <div class="item_info_properties_values">
+                                <div class="item_info_properties_value">9</div>
+                                <div class="item_info_properties_value">9</div>
+                            </div>
+                        </div>-->
+                        <div class="menu_contents_actionbar" style="top: 10px !important;">
+                            <div class="menu_contents_actionbar_padding_icon">
+                            </div><div id="students_and_staff_info_name_item_delete" class="icon red">
+                                DEL
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_classes" style="top:100%;">
+                <div class="container_menu_element" id="container_menu_events">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
                             BACK
@@ -156,7 +161,7 @@
                         
                     </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_interfaces" style="top:200%;">
+                <div class="container_menu_element" id="container_menu_interfaces">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
                             BACK
@@ -172,7 +177,7 @@
                         
                     </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_facilities" style="top:300%;">
+                <div class="container_menu_element" id="container_menu_facilities">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
                             BACK
@@ -188,7 +193,7 @@
                         
                     </div>
                 </div>
-                <div class="container_menu_element" id="container_menu_server" style="top:400%;">
+                <div class="container_menu_element" id="container_menu_server">
                    <div class="menu_header">
                         <div class="menu_header_back" onclick="Interface.setState(1);">
                             BACK

@@ -29,7 +29,8 @@ lib.System = {
     },
     print: function(m){
         var stamp = "SI^2 "+lib.System.command({
-            osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"'
+            osx:  'date "+%I:%M:%S%p" | tr "[:lower:]" "[:upper:]"',
+            linux:  'date "+%I:%M:%S%p"'
         })+": ";
         lib.System.writtenLog.push(stamp+"[INFO] "+m);
         lib.System.drawBack();
@@ -112,7 +113,7 @@ lib.Interface = {
                 fstream = fs.createWriteStream(__dirname + '/filebase/' + req.query.ID);
                 file.pipe(fstream);
                 fstream.on('close', function () {    
-                    li.bSystem.print("Upload Finished of " + filename); 
+                    lib.System.print("Upload Finished of " + filename); 
                     res.redirect('back');
                 });
             });
