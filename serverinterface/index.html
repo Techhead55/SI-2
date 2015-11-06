@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="menu_sidebar">
-                        <div id="studentList_container" class="menu_sidebar_list">
+                        <div id="studentList_container" class="menu_sidebar_list" style="height: 33.33%;">
                             <div class="menu_sidebar_list_title"
                                  onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#teacherList_container', '#groupList_container'], '#studentList_container')">
                                 Students
@@ -89,7 +89,7 @@
                             <div id="studentList_add" class="menu_sidebar_list_title_addbutton">+</div>
                             <div id='studentList' class="menu_sidebar_list_contents"></div>
                         </div>
-                        <div id="teacherList_container" class="menu_sidebar_list">
+                        <div id="teacherList_container" class="menu_sidebar_list" style="height: 33.33%;">
                             <div class="menu_sidebar_list_title"
                                 onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#groupList_container', '#studentList_container'], '#teacherList_container')">
                                 Teachers
@@ -100,7 +100,7 @@
                                 
                             </div>
                         </div>
-                        <div id="groupList_container" class="menu_sidebar_list" style="border-bottom: none;">
+                        <div id="groupList_container" class="menu_sidebar_list" style="height: 33.33%;">
                             <div class="menu_sidebar_list_title"
                                  onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#teacherList_container', '#studentList_container'], '#groupList_container')">
                                 Groups
@@ -117,23 +117,10 @@
                             <div class="item_info_icon_container">
                                 <form id="students_and_staff_icon" method='post' action='upload?ID=' enctype="multipart/form-data" >
                                 <input id="students_and_staff_icon_actual" class="item_info_icon" type='file' name='fileUploaded' accept="image/gif, image/jpeg, image/png" style="color:transparent;">
+                                </form>
                             </div>
                             <input type="text" id="students_and_staff_info_name" class="item_info_name" />
                         </div>
-                            <!--
-
-WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
-
-                        <div class="item_info_properties">
-                            <div class="item_info_properties_keys">
-                                <div class="item_info_properties_key">Year</div>
-                                <div class="item_info_properties_key">Year</div>
-                            </div>
-                            <div class="item_info_properties_values">
-                                <div class="item_info_properties_value">9</div>
-                                <div class="item_info_properties_value">9</div>
-                            </div>
-                        </div>-->
                         <div class="menu_contents_actionbar" style="top: 10px !important;">
                             <div class="menu_contents_actionbar_padding_icon">
                             </div><div id="students_and_staff_info_name_item_delete" class="icon red">
@@ -155,10 +142,119 @@ WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
                         </div>
                     </div>
                     <div class="menu_sidebar">
-                        
+                        <div id="classList_container" class="menu_sidebar_list" style="height: 50%;">
+                            <div class="menu_sidebar_list_title"
+                                 onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#eventList_container'], '#classList_container')">
+                                Classes
+                            </div>
+                            <div id="classList_add" class="menu_sidebar_list_title_addbutton">+</div>
+                            <div id='classList' class="menu_sidebar_list_contents"></div>
+                        </div>
+                        <div id="eventList_container" class="menu_sidebar_list" style="height: 50%;">
+                            <div class="menu_sidebar_list_title"onclick="Interface.mixElementWidth(window.innerHeight-40, 30, ['#classList_container'], '#eventList_container')">
+                                Events
+                            </div>
+                            <div id="eventList_add" class="menu_sidebar_list_title_addbutton">+</div>
+                            <div id='eventList' class="menu_sidebar_list_contents"></div>
+                        </div>
                     </div>
                     <div class="menu_contents">
-                        
+                        <div class="info_half">
+                            <div class="item_half_ID">
+                                <div class="item_half_ID_icon_container">
+                                    <form id="classes_and_events_icon" method='post' action='upload?ID=' enctype="multipart/form-data" >
+                                    <input id="classes_and_events_icon_actual" class="item_half_ID_icon" type='file' name='fileUploaded' accept="image/gif, image/jpeg, image/png" style="color:transparent;">
+                                    </form>
+                                </div>
+                            </div>
+                                <div class="item_half_details">
+                                    <div class="item_half_details_key">Name: 
+                                        <input id="classes_and_events_info_name" type="text" class="item_half_details_input"/>
+                                    </div>
+                                    <div class="item_half_details_key">Where: 
+                                        <input id="classes_and_events_info_roomID" type="text" class="item_half_details_input"/>
+                                    </div>
+                                    <div class="item_half_details_key" id="classes_and_events_info_whens">When:</div>
+                                    <div class="item_half_details_key" id="classes_and_events_info_heads">Head Attendees: </div>
+                                    <div class="item_half_details_key" id="classes_and_events_info_attendees">Attendees: </div>
+                                </div>
+                        </div>
+                        <div id="eventCalendar" class="calendar">
+                            <div class="calendar_titlebar">
+                                <div class="calendar_titlebar_colum">Monday</div>
+                                <div class="calendar_titlebar_colum">Tuesday</div>
+                                <div class="calendar_titlebar_colum">Wednesday</div>
+                                <div class="calendar_titlebar_colum">Thursday</div>
+                                <div class="calendar_titlebar_colum">Friday</div>
+                            </div>
+                            <div id="eventCalendar_contents" class="calendar_contents">
+                                <div class="calendar_contents_times">
+                                    <div class="calendar_contents_time">12</div>
+                                    <div class="calendar_contents_time">1</div>
+                                    <div class="calendar_contents_time">2</div>
+                                    <div class="calendar_contents_time">3</div>
+                                    <div class="calendar_contents_time">4</div>
+                                    <div class="calendar_contents_time">5</div>
+                                    <div class="calendar_contents_time">6</div>
+                                    <div class="calendar_contents_time">7</div>
+                                    <div class="calendar_contents_time">8</div>
+                                    <div class="calendar_contents_time">9</div>
+                                    <div class="calendar_contents_time">10</div>
+                                    <div class="calendar_contents_time">11</div>
+                                    <div class="calendar_contents_time">Noon</div>
+                                    <div class="calendar_contents_time">1</div>
+                                    <div class="calendar_contents_time">2</div>
+                                    <div class="calendar_contents_time">3</div>
+                                    <div class="calendar_contents_time">4</div>
+                                    <div class="calendar_contents_time">5</div>
+                                    <div class="calendar_contents_time">6</div>
+                                    <div class="calendar_contents_time">7</div>
+                                    <div class="calendar_contents_time">8</div>
+                                    <div class="calendar_contents_time">9</div>
+                                    <div class="calendar_contents_time">10</div>
+                                    <div class="calendar_contents_time">11</div>
+                                </div>
+                                <div class="calendar_contents_rows">
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                    <div class="calendar_contents_row"><div class="calendar_contents_innerRow"></div></div>
+                                </div>
+                                <div class="calendar_contents_colums">
+                                    <div id="classes_and_events_cal_monday" class="calendar_contents_colum">
+                                        
+                                    </div><div id="classes_and_events_cal_tuesday" class="calendar_contents_colum">
+                                        
+                                    </div><div id="classes_and_events_cal_wednesday" class="calendar_contents_colum">
+                                        
+                                    </div><div id="classes_and_events_cal_thursday" class="calendar_contents_colum">
+                                        
+                                    </div><div id="classes_and_events_cal_friday" class="calendar_contents_colum">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="container_menu_element" id="container_menu_interfaces">
@@ -176,6 +272,9 @@ WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
                     <div class="menu_sidebar">
                         
                     </div>
+                    <div class="menu_contents">
+                        
+                    </div>
                 </div>
                 <div class="container_menu_element" id="container_menu_facilities">
                    <div class="menu_header">
@@ -190,6 +289,9 @@ WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
                         </div>
                     </div>
                     <div class="menu_sidebar">
+                        
+                    </div>
+                    <div class="menu_contents">
                         
                     </div>
                 </div>
@@ -228,6 +330,16 @@ WE SHOULD CREATE A CONTAINER FOR ALL THE INFO REALTED STUFF
                     <div id="Mission_Control" class="menu_contents">
                         <div class="menu_contents_statusbar" style="top: Calc(50% - 50px);">
                             <center>
+                                <div class="menu_contents_statusbar_element" style="">
+                                    <div class="menu_contents_statusbar_element_icon">
+                                        <div id="Server_Uptime" class="menu_contents_statusbar_element_icon_inner green">
+                                            0
+                                        </div>
+                                    </div>
+                                    <div class="menu_contents_statusbar_element_name">
+                                        Uptime
+                                    </div>
+                                </div>
                                 <div class="menu_contents_statusbar_element" style="">
                                     <div class="menu_contents_statusbar_element_icon">
                                         <div id="Connected_Interfaces" class="menu_contents_statusbar_element_icon_inner"

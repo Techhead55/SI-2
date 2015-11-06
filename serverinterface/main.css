@@ -14,6 +14,13 @@ label {
 textarea:focus, input:focus{
     outline: 0;
 }
+input[type=time] {
+    outline: none;
+    border: none;
+    text-align: center;
+    -webkit-appearance: none;
+    font-size: 15px;
+}
 #container {
     position: fixed;
     height: 100%;
@@ -145,7 +152,7 @@ textarea:focus, input:focus{
     position: relative;
     left: 0;
     width: 100%;
-    height: 33.3333%;
+    height: 100%;
     border-bottom: grey 1px solid;
 }
 .menu_sidebar_list_title {
@@ -204,6 +211,9 @@ textarea:focus, input:focus{
     width: Calc(100% - 250px);
     height: Calc(100% - 40px);
     overflow-y: scroll;
+    background-color: white;
+    border-top: grey 1px solid;
+    border-left: grey 1px solid;
 }
 .menu_contents::-webkit-scrollbar {
     display: none;
@@ -220,6 +230,7 @@ textarea:focus, input:focus{
     width: 100%;
     height: 100px;
     left: 0;
+    overflow-x: scroll;
 }
 .menu_contents_statusbar_element {
     width: 80px;
@@ -231,17 +242,17 @@ textarea:focus, input:focus{
 }
 .menu_contents_statusbar_element_icon_inner {
     top: 10px;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
     text-align: center;
-    border-radius: 30px;
-    font-size: 20px;
+    border-radius: 35px;
+    font-size: 15px;
 }
 .menu_contents_statusbar_element_icon {
-    height: 60px;
-    width: 60px;
-    padding: 10px;
+    height: 70px;
+    width: 70px;
+    padding: 5px;
 }
 .menu_contents_statusbar_element_name {
     height: 20px;
@@ -251,7 +262,7 @@ textarea:focus, input:focus{
     font-size: 13px;
 }
 #Server_Console{
-    overflow-y: scroll;
+    overflow-y: scroll !important;
 }
 .button {
     position: relative;
@@ -282,6 +293,9 @@ textarea:focus, input:focus{
 }
 .blue {
     background-color: #3498DB;
+}
+.green {
+    background-color: #AEEE00;
 }
 .menu_contents_actionbar {
     position: absolute;
@@ -360,6 +374,155 @@ textarea:focus, input:focus{
 .item_info_properties_value {
     text-align: left;
 }
+.info_half {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 0;
+    left: 0;
+}
+.item_half_ID {
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.item_half_ID_icon_container {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: Calc(50% - 100px);
+    left: Calc(50% - 100px);
+}
+.item_half_ID_icon {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    background-color: #9affcc;
+    background-size: cover;
+}
+.item_half_details {
+    position: absolute;
+    width: Calc(100% - 250px);
+    height: 100%;
+    top: 0;
+    left: 250px;
+    font-size: 15px;
+    overflow-y: scroll;
+}
+.item_half_details_key {
+    line-height: 30px;
+}
+.item_half_details_input {
+    text-align: left;
+    -webkit-appearance: none;
+    border: none;
+    font-size: 15px;
+}
+.mini_circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    line-height: 30px;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    display: inline-block;
+}
 #student_and_teacher_content {
     visibility: hidden;
+}
+.calendar {
+    position: relative;
+    width: 100%;
+}
+.calendar_titlebar {
+    position: absolute;
+    top 0;
+    right: 0;
+    width: Calc(100% - 50px);
+    height: 25px;
+    line-height: 25px;
+    font-size: 15px;
+    text-align: center;
+}
+.calendar_titlebar_colum {
+    position: relative;
+    display: inline-block;
+    float: left;
+    width: Calc(20% - 1px);
+    height: 25px;
+}
+.calendar_contents {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: Calc(100% - 25px);
+    overflow-y: scroll;
+}
+.calendar_contents_times {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 100%;
+}
+.calendar_contents_time {
+    width: 45px;
+    padding-right: 5px;
+    height: 40px;
+    text-align: right;
+    line-height: 40px;
+}
+.calendar_contents_colums {
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: Calc(100% - 55px);
+    height: 960px;
+}
+.calendar_contents_colum {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    display: inline-block;
+}
+.calendar_contents_rows {
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: Calc(100% - 55px);
+    height: 960px;
+    overflow-y: scroll;
+}
+.calendar_contents_row {
+    position: relative;
+    width: 100%;
+    height: 39px;
+    border-bottom: #d4d4d4 1px solid;
+}
+.calendar_contents_innerRow {
+    position: relative;
+    width: 100%;
+    height: 19px;
+    border-bottom: #a2a2a2 1px solid;
+}
+.calendar_item {
+    position: absolute;
+    left: 5px;
+    width: Calc(100% - 10px);
+    border-radius: 10px;
+    line-height: 20px;
+    color: white;
+    text-align: center;
+    font-size: 10px;
+    overflow-x: scroll;
+}
+#eventCalendar {
+    position: absolute !important;
+    height: Calc(50% - 1px);
+    top: 50%;
+    border-top: grey 1px solid;
 }

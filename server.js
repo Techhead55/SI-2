@@ -126,6 +126,12 @@ Interface.coms.on('connection', function(Socket){
             }
         });
     });
+    Interface.registerEvent("Uptime", function(Event, Socket){
+        Socket.emit("data", {
+            ID: "response:"+Event.referer,
+            Contents: process.uptime()
+        });
+    });
     Interface.registerEvent("Shutdown", function(Event, Socket){
         System.warn("Shutdown event recieved, server terminatng now.");
         Database.store.close();

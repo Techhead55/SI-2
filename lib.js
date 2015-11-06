@@ -11,7 +11,7 @@ var lib = {},
     socketIO = require("socket.io"),
     jFive = require("johnny-five"),
     net = require("net"),
-    CryptoJS = require('./CryptoJS.js'),
+    CryptoJS = require('crypto-js'),
     hat = require('hat'),
     dirty = require('dirty'),
     busboy = require('connect-busboy'),
@@ -131,11 +131,9 @@ lib.Interface = {
         System.print("Interface coms event registered: "+eventID);
     },
     event: function(event, Socket){
-        System.print("Received interface event");
         if (event.ID){
             if (lib.Interface.events[event.ID]){
                 lib.Interface.events[event.ID](event, Socket);
-                System.print("Interface event identified as "+event.ID);
             } else {
                 System.warn("No interface events with the ID "+event.ID+" were found.");
             }
@@ -195,6 +193,7 @@ lib.Network = {
 };
 lib.Cryptography = {
     AES: CryptoJS.AES,
+    UTF8: CryptoJS.enc.Utf8,
     generateToken: function(){
         return hat();
     },
